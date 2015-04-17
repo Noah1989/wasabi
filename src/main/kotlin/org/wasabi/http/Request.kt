@@ -12,7 +12,7 @@ import java.util.SortedMap
 import io.netty.handler.codec.http.multipart.InterfaceHttpData
 import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType
 import io.netty.handler.codec.http.multipart.Attribute
-
+import java.net.URLDecoder
 
 public class Request(private val httpRequest: HttpRequest) {
 
@@ -72,7 +72,7 @@ public class Request(private val httpRequest: HttpRequest) {
             for (entry in queryNameValuePair) {
                 val nameValuePair = entry.split('=')
                 if (nameValuePair.size() == 2) {
-                    queryParamsList[nameValuePair[0]] = nameValuePair[1]
+                    queryParamsList[nameValuePair[0]] = URLDecoder.decode(nameValuePair[1], "UTF-8")
                 } else {
                     queryParamsList[nameValuePair[0]] = ""
                 }

@@ -8,6 +8,7 @@ import io.netty.handler.codec.http.HttpVersion
 import io.netty.handler.codec.http.HttpContent
 import io.netty.handler.codec.http.LastHttpContent
 import io.netty.handler.codec.http.HttpResponseStatus
+import io.netty.channel.ChannelFuture
 import io.netty.channel.ChannelFutureListener
 import io.netty.buffer.Unpooled
 import io.netty.util.CharsetUtil
@@ -282,11 +283,12 @@ public class NettyRequestHandler(private val appServer: AppServer, routeLocator:
             httpResponse = DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus(response.statusCode,response.statusDescription),  Unpooled.copiedBuffer(buffer, CharsetUtil.UTF_8))
             response.setHeaders()
             addResponseHeaders(httpResponse, response)
-            ctx.write(httpResponse)
 
-            var lastContentFuture = ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT)
-
-            lastContentFuture.addListener(ChannelFutureListener.CLOSE)
+            ctx.writeAndFlush(httpResponse).addListener(object : ChannelFutureListener {
+                override fun operationComplete(future: ChannelFuture?) {
+                    ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT).addListener(ChannelFutureListener.CLOSE)
+                }
+            })
 
         }
     }
