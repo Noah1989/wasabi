@@ -1,5 +1,5 @@
 buildscript {
-    project.ext.set("kotlin_version", '0.12.613')
+    project.ext.set("kotlin_version", '0.12.1218')
     repositories {
         mavenCentral()
         maven {
@@ -11,9 +11,9 @@ buildscript {
     }
 }
 
-if (hasProperty("teamcity") && kotlin_version != '0.1-SNAPSHOT') {
-    version = teamcity["build.number"]
-} else
+//if (hasProperty("teamcity") && kotlin_version != '0.1-SNAPSHOT') {
+//    version = teamcity["build.number"]
+//} else
     version = "0.1-LOCAL"
 
 apply plugin: 'kotlin'
