@@ -6,7 +6,7 @@ import io.netty.handler.codec.http.multipart.InterfaceHttpData
 import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType
 import java.util.HashMap
 
-public class MultiPartFormDataDeserializer : Deserializer("application/x-www-form-urlencoded", "multipart/form-data(;.*)?") {
+public class MultiPartFormDataDeserializer : Deserializer("application/x-www-form-urlencoded(;.*)?", "multipart/form-data(;.*)?") {
     val bodyParams = HashMap<String, Any>()
 
     override fun deserialize(input: Any): HashMap<String, Any> {
