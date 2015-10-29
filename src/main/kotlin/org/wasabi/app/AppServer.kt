@@ -52,7 +52,7 @@ public open class AppServer(val configuration: AppConfiguration = AppConfigurati
         if (existingRoute.count() >= 1) {
             throw RouteAlreadyExistsException(existingRoute.firstOrNull()!!)
         }
-        routes.add(Route(path, method, HashMap<String, String>(), *handler))
+        routes.add(Route(path, method, HashMap<String, String>(), handler))
     }
 
     private fun addChannel(path: String, handler: ChannelHandler.() -> Unit) {
