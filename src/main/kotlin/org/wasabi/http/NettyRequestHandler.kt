@@ -3,7 +3,7 @@ package org.wasabi.http
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.http.HttpRequest
 import io.netty.handler.codec.http.DefaultFullHttpResponse
-import io.netty.handler.codec.http
+//import io.netty.handler.codec.http
 import io.netty.handler.codec.http.HttpVersion
 import io.netty.handler.codec.http.HttpContent
 import io.netty.handler.codec.http.LastHttpContent
@@ -197,7 +197,7 @@ public class NettyRequestHandler(private val appServer: AppServer, routeLocator:
         {
             return
         }
-        for (handler in routeHandlers.handler) {
+        for (handler in routeHandlers.handlers) {
 
             val handlerExtension : RouteHandler.() -> Unit = handler
             val routeHandler = RouteHandler(request!!, response)
