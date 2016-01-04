@@ -1,17 +1,7 @@
 package org.wasabi.test
 
-import org.junit.Test as spec
-import org.wasabi.app.AppServer
-import org.apache.http.client.HttpClient
-import org.apache.http.impl.client.DefaultHttpClient
-import org.apache.http.client.methods.HttpGet
 import kotlin.test.assertEquals
-import org.apache.http.impl.client.BasicResponseHandler
-import org.wasabi.test.TestServer
-import org.wasabi.test.get
-import kotlin.test.fails
-import org.apache.http.client.HttpResponseException
-import org.wasabi.test.delete
+import org.junit.Test as spec
 
 public class UrlRequestingSpecs: TestServerContext() {
 
@@ -26,7 +16,7 @@ public class UrlRequestingSpecs: TestServerContext() {
 
     )
 
-    spec fun a_get_on_an_existing_resource_should_return_it() {
+    @spec fun a_get_on_an_existing_resource_should_return_it() {
 
         TestServer.appServer.get("/hello", {  response.send("Hello")})
 
@@ -37,7 +27,7 @@ public class UrlRequestingSpecs: TestServerContext() {
 
     }
 
-    spec fun a_get_on_an_non_existing_resource_should_return_a_404_with_message_Not_Found() {
+    @spec fun a_get_on_an_non_existing_resource_should_return_a_404_with_message_Not_Found() {
 
 
         val response = get("http://localhost:${TestServer.definedPort}/nothing", headers)
@@ -47,7 +37,7 @@ public class UrlRequestingSpecs: TestServerContext() {
 
     }
 
-    spec fun a_get_on_an_existing_resource_with_invalid_verb_should_return_405_with_message_method_not_allowed_and_header_of_allowed_methods() {
+    @spec fun a_get_on_an_existing_resource_with_invalid_verb_should_return_405_with_message_method_not_allowed_and_header_of_allowed_methods() {
 
         TestServer.appServer.get("/hello", {  response.send("Hello")})
 

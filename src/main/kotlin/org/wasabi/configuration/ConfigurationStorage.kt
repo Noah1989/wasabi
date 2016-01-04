@@ -1,9 +1,9 @@
 package org.wasabi.configuration
 
-import org.codehaus.jackson.map.ObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
 import java.io.File
-import org.codehaus.jackson.map.exc.UnrecognizedPropertyException
-import org.codehaus.jackson.JsonParseException
+import com.fasterxml.jackson.core.JsonParseException
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
 import org.wasabi.app.AppConfiguration
 import org.wasabi.configuration.InvalidConfigurationException
 
@@ -22,7 +22,7 @@ public class ConfigurationStorage {
         val jsonFile = File(jsonFilename)
         if (jsonFile.exists()) {
             try {
-                val configuration = objectMapper.readValue<AppConfiguration>(jsonFile, javaClass<AppConfiguration>())
+                val configuration = objectMapper.readValue<AppConfiguration>(jsonFile, AppConfiguration::class.java)
                 if (configuration != null) {
                     return configuration
                 } else {

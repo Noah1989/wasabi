@@ -1,18 +1,15 @@
 package org.wasabi.http
 
-import org.apache.http.client.methods.HttpRequestBase
-import io.netty.handler.codec.http.HttpRequest
-import java.util.Dictionary
-import java.util.ArrayList
 import io.netty.handler.codec.http.HttpMethod
-import io.netty.handler.codec.http.CookieDecoder
-import java.util.HashMap
-import java.util.Comparator
-import java.util.SortedMap
+import io.netty.handler.codec.http.HttpRequest
+import io.netty.handler.codec.http.cookie.ServerCookieDecoder
+import io.netty.handler.codec.http.multipart.Attribute
 import io.netty.handler.codec.http.multipart.InterfaceHttpData
 import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType
 import io.netty.handler.codec.http.multipart.Attribute
 import java.net.URLDecoder
+import java.util.*
+
 
 public class Request(private val httpRequest: HttpRequest) {
 
@@ -44,6 +41,7 @@ public class Request(private val httpRequest: HttpRequest) {
 
     public var session: Session? = null
 
+    // TODO add charset and parse method to split charset from contentType if it exists.
 
     private fun parseAcceptHeader(header: String): SortedMap<String, Int> {
 
@@ -53,7 +51,7 @@ public class Request(private val httpRequest: HttpRequest) {
             val parts = entry.split(';')
             val mediaType = parts[0]
             var weight = 1
-            if (parts.size() == 2) {
+            if (parts.size == 2) {
                 val float = parts[1].trim().drop(2).toFloat() * 10
                 weight = float.toInt()
             }
@@ -67,11 +65,11 @@ public class Request(private val httpRequest: HttpRequest) {
     private fun parseQueryParams(): HashMap<String, String> {
         val queryParamsList = hashMapOf<String, String>()
         val urlParams = httpRequest.getUri()!!.split('?')
-        if (urlParams.size() == 2) {
+        if (urlParams.size == 2) {
             val queryNameValuePair = urlParams[1].split("&")
             for (entry in queryNameValuePair) {
                 val nameValuePair = entry.split('=')
-                if (nameValuePair.size() == 2) {
+                if (nameValuePair.size == 2) {
                     queryParamsList[nameValuePair[0]] = URLDecoder.decode(nameValuePair[1], "UTF-8")
                 } else {
                     queryParamsList[nameValuePair[0]] = ""
@@ -83,18 +81,18 @@ public class Request(private val httpRequest: HttpRequest) {
 
     private fun parseCookies(): HashMap<String, Cookie> {
         val cookieHeader = getHeader("Cookie")
-        val cookieSet = CookieDecoder.decode(cookieHeader)
+        val cookieSet = ServerCookieDecoder.STRICT.decode(cookieHeader)
         val cookieList = hashMapOf<String, Cookie>()
         for (cookie in cookieSet?.iterator()) {
             var path = ""
-            if (cookie.getPath() != null) {
-                path = cookie.getPath()
+            if (cookie.path() != null) {
+                path = cookie.path()
             }
             var domain = ""
-            if (cookie.getDomain() != null) {
-                domain = cookie.getDomain()
+            if (cookie.domain() != null) {
+                domain = cookie.domain()
             }
-            cookieList[cookie.getName().toString()] = Cookie(cookie.getName().toString(), cookie.getValue().toString(), path, domain, cookie.isSecure())
+            cookieList[cookie.name().toString()] = Cookie(cookie.name().toString(), cookie.value().toString(), path, domain, cookie.isSecure)
         }
         return cookieList
     }

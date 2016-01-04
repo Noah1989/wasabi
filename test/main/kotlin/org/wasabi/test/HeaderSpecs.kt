@@ -16,7 +16,7 @@ import java.util.SortedMap
 
 public class HeaderSpecs: TestServerContext() {
 
-    spec fun request_with_get_should_contain_all_fields() {
+    @spec fun request_with_get_should_contain_all_fields() {
 
 
         val headers = hashMapOf(
@@ -77,12 +77,12 @@ public class HeaderSpecs: TestServerContext() {
         assertEquals("test-client", userAgent);
         assertEquals("Close", connection);
         assertEquals("max-age=0", cacheControl);
-        assertEquals(3, accept.size());
+        assertEquals(3, accept.size);
         assertEquals(4, accept["application/xhtml+xml"])
-        assertEquals(3, acceptEncoding.size());
-        assertEquals(2, acceptLanguage.size());
-        assertEquals(3, acceptCharset.size());
-        assertEquals(2, queryParams.size())
+        assertEquals(3, acceptEncoding.size);
+        assertEquals(2, acceptLanguage.size);
+        assertEquals(3, acceptCharset.size);
+        assertEquals(2, queryParams.size)
         assertEquals("value1",queryParams["param1"])
         assertEquals("value2",queryParams["param2"])
         assertEquals("10", routeParams["id"])
@@ -91,7 +91,7 @@ public class HeaderSpecs: TestServerContext() {
 
     }
 
-    spec fun request_with_url_form_encoded_post_should_contain_post_fields_in_bodyParams() {
+    @spec fun request_with_url_form_encoded_post_should_contain_post_fields_in_bodyParams() {
 
         val headers = hashMapOf(
                 "User-Agent" to "test-client",
@@ -121,7 +121,7 @@ public class HeaderSpecs: TestServerContext() {
         val fields = arrayListOf<BasicNameValuePair>(BasicNameValuePair("name", "joe"), BasicNameValuePair("email", "joe@joe.com"))
         postForm("http://localhost:${TestServer.definedPort}/customer", headers, fields)
 
-        assertEquals(2, bodyParams.size())
+        assertEquals(2, bodyParams.size)
         assertEquals("joe", bodyParams["name"])
         assertEquals("joe@joe.com", bodyParams["email"])
 
@@ -129,7 +129,7 @@ public class HeaderSpecs: TestServerContext() {
     }
 
 
-    spec fun setting_a_cookie_when_making_a_request_should_set_the_cookie_value_in_the_request() {
+    @spec fun setting_a_cookie_when_making_a_request_should_set_the_cookie_value_in_the_request() {
 
         val headers = hashMapOf(
                 "User-Agent" to "test-client",
@@ -159,7 +159,7 @@ public class HeaderSpecs: TestServerContext() {
     }
 
 
-    Ignore("Fix Chunk encoding") spec fun request_with_url_form_encoded_post_and_chunked_encoding_should_contain_post_fields_in_bodyParams() {
+    @Ignore("Fix Chunk encoding") @spec fun request_with_url_form_encoded_post_and_chunked_encoding_should_contain_post_fields_in_bodyParams() {
 
         val headers = hashMapOf(
                 "User-Agent" to "test-client",
@@ -188,7 +188,7 @@ public class HeaderSpecs: TestServerContext() {
         val fields = arrayListOf<BasicNameValuePair>(BasicNameValuePair("name", "joe"), BasicNameValuePair("email", "joe@joe.com"))
         postForm("http://localhost:${TestServer.definedPort}/customer", headers, fields, true)
 
-        assertEquals(2, bodyParams.size())
+        assertEquals(2, bodyParams.size)
         assertEquals("joe", bodyParams["name"])
         assertEquals("joe@joe.com", bodyParams["email"])
 
