@@ -25,7 +25,7 @@ public class ConfigSpecs {
                 AppConfiguration(
                         port = 5000,
                         welcomeMessage = "Hello there!",
-                        enableLogging = false))
+                        enableLogging = false, enableSsl =))
 
         assertEquals(5000, appServer.configuration.port)
         assertEquals("Hello there!", appServer.configuration.welcomeMessage)
