@@ -82,7 +82,7 @@ public class Request(private val httpRequest: HttpRequest) {
         val cookieHeader = getHeader("Cookie")
         val cookieSet = ServerCookieDecoder.STRICT.decode(cookieHeader)
         val cookieList = hashMapOf<String, Cookie>()
-        for (cookie in cookieSet?.iterator()) {
+        for (cookie in cookieSet) {
             var path = ""
             if (cookie.path() != null) {
                 path = cookie.path()
