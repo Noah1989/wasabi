@@ -1,5 +1,5 @@
 buildscript {
-    project.ext.set("kotlin_version", '1.0.0')
+    project.ext.set("kotlin_version", '1.0.6')
     repositories {
         mavenCentral()
         maven {
@@ -14,7 +14,7 @@ buildscript {
 //if (hasProperty("teamcity") && kotlin_version != '0.1-SNAPSHOT') {
 //    version = teamcity["build.number"]
 //} else
-    version = "0.3-LOCAL"
+    version = "0.4-LOCAL"
 
 apply plugin: 'kotlin'
 
@@ -48,7 +48,7 @@ dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$project.kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$project.kotlin_version"
-    //compile "org.jetbrains.kotlin:kotlin-test:$project.kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test:$project.kotlin_version"
 
     testCompile "junit:junit:4.9",
             "org.mockito:mockito-all:1.9.5",

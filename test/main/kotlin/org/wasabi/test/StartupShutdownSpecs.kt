@@ -5,7 +5,6 @@ import java.net.Socket
 import java.net.InetSocketAddress
 import org.junit.Test as spec
 import kotlin.test.assertEquals
-import kotlin.test.fails
 import java.net.ConnectException
 import org.wasabi.app.AppServer
 import org.wasabi.test.TestServer
