@@ -32,7 +32,7 @@ open public class TestServerContext {
 object TestServer {
 
     public val definedPort: Int = Random().nextInt(30000) + 5000
-    public var appServer: AppServer = AppServer(AppConfiguration(definedPort, enableSsl =))
+    public var appServer: AppServer = AppServer(AppConfiguration(definedPort))
 
     public fun start() {
         try {

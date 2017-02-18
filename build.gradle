@@ -14,7 +14,7 @@ buildscript {
 //if (hasProperty("teamcity") && kotlin_version != '0.1-SNAPSHOT') {
 //    version = teamcity["build.number"]
 //} else
-    version = "0.2-LOCAL"
+    version = "0.3-LOCAL"
 
 apply plugin: 'kotlin'
 

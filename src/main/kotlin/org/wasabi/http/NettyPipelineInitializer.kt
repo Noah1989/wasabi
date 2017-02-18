@@ -13,6 +13,9 @@ import org.wasabi.routing.PatternAndVerbMatchingRouteLocator
 import org.wasabi.app.AppServer
 import io.netty.handler.stream.ChunkedWriteHandler
 import org.wasabi.routing.PatternMatchingChannelLocator
+import java.io.File
+import java.security.PrivateKey
+import java.security.cert.X509Certificate
 
 
 public class NettyPipelineInitializer(private val appServer: AppServer):
@@ -20,8 +23,16 @@ public class NettyPipelineInitializer(private val appServer: AppServer):
     protected override fun initChannel(ch: SocketChannel) {
         val pipeline = ch.pipeline()
         if (appServer.configuration.enableSsl) {
-            val ssc = SelfSignedCertificate()
-            val ctx = SslContextBuilder.forServer(ssc.key(), ssc.cert()).build()
+            val fqdn = appServer.configuration.certificateFqdn ?: "example.com"
+            val keyFile = File("$fqdn.key")
+            val certFile = File("$fqdn.crt")
+            if(!keyFile.exists() && !certFile.exists()) {
+                val ssc = SelfSignedCertificate(fqdn)
+                ssc.privateKey().copyTo(keyFile, overwrite = false)
+                ssc.certificate().copyTo(certFile, overwrite = false)
+            }
+
+            val ctx = SslContextBuilder.forServer(certFile, keyFile).build()
             val engine = ctx.newEngine(ch.alloc())
             pipeline.addLast("ssl", SslHandler(engine))
         }

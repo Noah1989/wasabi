@@ -13,5 +13,6 @@ public data class AppConfiguration(
         var enableAutoOptions: Boolean = false,
         var enableCORSGlobally: Boolean = false,
         val enableSsl: Boolean = false,
+        val certificateFqdn: String? = null,
         var sessionLifetime: Int = 600)
 
